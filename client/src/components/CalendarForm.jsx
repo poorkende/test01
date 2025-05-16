@@ -3,7 +3,7 @@ import FullCalendar from "@fullcalendar/react";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import huLocale from "@fullcalendar/core/locales/hu";
-import { createAppointment, getAppointments } from "../services/api";
+import { createAppointment, getPublicAppointments } from "../services/api";
 
 export default function AppointmentCalendarWithSelection() {
   const [formData, setFormData] = useState({
@@ -28,8 +28,9 @@ export default function AppointmentCalendarWithSelection() {
   const handleChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
+  // MÓDOSÍTOTT: publikus végpontot használunk!
   const loadEvents = async () => {
-    const res = await getAppointments();
+    const res = await getPublicAppointments();
     const formatted = res.data.map((a) => ({
       title: "Foglalt időpont",
       start: a.datetime,

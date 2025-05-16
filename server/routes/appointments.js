@@ -30,12 +30,21 @@ router.post('/', async (req, res) => {
     );
     res.json({ message: 'Sikeres foglalás!' });
   } catch (err) {
-    console.error(err);
     res.status(500).json({ message: 'Adatbázis hiba!' });
   }
 });
 
-// Időpontok lekérése (admin jogosultság szükséges)
+// Időpontok lekérése (NYILVÁNOS)
+router.get('/public', async (req, res) => {
+  try {
+    const [rows] = await pool.query('SELECT * FROM appointments');
+    res.json(rows);
+  } catch (err) {
+    res.status(500).json({ message: 'Adatbázis hiba!' });
+  }
+});
+
+// Időpontok lekérése (ADMIN, JWT szükséges)
 router.get('/', verifyToken, async (req, res) => {
   try {
     const [rows] = await pool.query('SELECT * FROM appointments');
@@ -45,7 +54,7 @@ router.get('/', verifyToken, async (req, res) => {
   }
 });
 
-// Időpont törlése (admin jogosultság szükséges)
+// Időpont törlése (ADMIN, JWT szükséges)
 router.delete('/:id', verifyToken, async (req, res) => {
   try {
     await pool.query('DELETE FROM appointments WHERE id = ?', [req.params.id]);

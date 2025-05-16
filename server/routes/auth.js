@@ -2,7 +2,6 @@ import express from 'express';
 import jwt from 'jsonwebtoken';
 
 const router = express.Router();
-
 const SECRET = 'titkos_jwt_kulcs';
 const ADMIN = { username: 'admin', password: 'admin123' };
 

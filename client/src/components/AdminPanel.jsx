@@ -36,9 +36,9 @@ export default function AdminPanel() {
     }
   };
 
-  const handleDelete = async (index) => {
+  const handleDelete = async (id) => {
     try {
-      await deleteAppointment(index);
+      await deleteAppointment(id);
       await loadAppointments();
       alert("Időpont törölve.");
     } catch (err) {
@@ -73,17 +73,26 @@ export default function AdminPanel() {
           </tr>
         </thead>
         <tbody>
-          {appointments.map((a, index) => (
-            <tr key={index}>
+          {appointments.map((a) => (
+            <tr key={a.id}>
               <td>{a.name}</td>
               <td>{a.email}</td>
               <td>{a.phone}</td>
-              <td>{a.datetime?.replace("T", " ").slice(0, 16)}</td>
+              <td>
+                {a.datetime &&
+                  new Date(a.datetime).toLocaleString('hu-HU', {
+                    year: 'numeric',
+                    month: '2-digit',
+                    day: '2-digit',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                  })}
+              </td>
               <td>{a.contact}</td>
               <td>
                 <button
                   className="btn btn-danger btn-sm"
-                  onClick={() => handleDelete(index)}
+                  onClick={() => handleDelete(a.id)}
                 >
                   Törlés
                 </button>

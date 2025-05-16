@@ -15,7 +15,7 @@ app.get('/', (req, res) => {
   res.send('Szerver fut');
 });
 
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`✅ Backend fut: http://localhost:${PORT}`);
 });
